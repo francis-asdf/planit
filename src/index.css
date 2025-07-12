@@ -1,7 +1,33 @@
 :root {
   font-family: system-ui;
   line-height: 1.5;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
+
+/* actually changes the color of the background */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background 0.3s, color 0.3s;
+}
+
+/* used for defining variables only */
+body.light {
+  --bg-color: white;
+  --text-color: black;
+}
+
+body.dark {
+  --bg-color: #121212;
+  /* css variables*/
+  --text-color: white;
+}
+
+/* div {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+} */
 
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
