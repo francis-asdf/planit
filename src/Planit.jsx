@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -17,17 +17,47 @@ function Planit() {
     { id: 4, name: "Do physics homework", deadline: "2025-07-10T08:00", completed: false, completionDate: null },
     { id: 5, name: "Organize university applications", deadline: "2025-07-27T20:00", completed: false, completionDate: null }
   ]);
+  const [streak, setStreak] = useState(() => {
+    return parseInt(localStorage.getItem("streak")) || 0;
+  });
+  const [lastCompletedDate, setLastCompletedDate] = useState(() => {
+    return localStorage.getItem("lastCompletedDate") || null; // localStorage stores stuff between refreshes
+  });
 
   const addTask = (task) => {
     task.deadline = formatDate(new Date(task.deadline));
     setTasks([...tasks, task]); // adds the newest task to the list of tasks
   }
 
+  const getTodayString = () => {
+    const today = new Date();
+    return today.toISOString().split("T")[0]; // splits the string into substrings at the "T" and takes the date part
+  }
+
   const toggleTaskCompleted = (id) => {
+    // set streak
+    const today = getTodayString();
+    if (lastCompletedDate === today) {
+      console.log(lastCompletedDate);
+      console.log(getTodayString(new Date()));
+      console.log("not working?");
+      // task already completed, do nothing
+    } else if (
+      lastCompletedDate === null || new Date(today) - new Date(lastCompletedDate) === 86400000 // one day after last streak set
+    ) {
+      setStreak(prev => prev + 1);
+      console.log("working?");
+    } else {
+      setStreak(1);
+    }
+    setLastCompletedDate(today);
+    localStorage.setItem("lastCompletedDate", today);
+    console.log(streak);
+
     const updatedTasks = tasks.map((task) => {
       if (task.id === id) {
         const isCompleted = !task.completed; // allows for toggling from complete to incomplete
-        const currentDate = formatDate(new Date());
+        const currentDate = new Date();
 
         return {
           ...task,
@@ -41,10 +71,14 @@ function Planit() {
     setTasks(updatedTasks);
   }
 
+  useEffect(() => {
+    localStorage.setItem("streak", streak);
+  }, [streak]); // saves streak in localStorage
+
   return (
     <div className="planit">
       <div>
-        <Header />
+        <Header steak={streak} />
       </div>
       <div className="all-tasks">
         <div>

@@ -46,21 +46,20 @@ function Greeting() {
     )
 }
 
-function DailyStreak() {
-    let streak = 2;
+function DailyStreak({ streak }) {
     return (
         <div className="streak">
-            <h3>Daily Streak: {streak.toString()} days.</h3>
+            <h3>🔥 Daily Streak: {streak || 0} days.</h3>
         </div>
     )
 }
 
-export default function Header() {
+export default function Header({ streak }) {
     return (
         <div className="header">
             <Title />
             <Greeting />
-            <DailyStreak />
+            <DailyStreak streak={streak} />
         </div>
     )
 }
