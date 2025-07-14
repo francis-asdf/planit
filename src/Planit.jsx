@@ -39,21 +39,16 @@ function Planit() {
       // set streak
       const today = getTodayString();
       if (lastCompletedDate === today) {
-        console.log(lastCompletedDate);
-        console.log(getTodayString(new Date()));
-        console.log("not working?");
         // task already completed, do nothing
       } else if (
         lastCompletedDate === null || new Date(today) - new Date(lastCompletedDate) === 86400000 // one day after last streak set
       ) {
         setStreak(prev => prev + 1);
-        console.log("working?");
       } else {
         setStreak(1);
       }
       setLastCompletedDate(today);
       localStorage.setItem("lastCompletedDate", today);
-      console.log(streak);
     }
 
     const updatedTasks = tasks.map((task) => {
