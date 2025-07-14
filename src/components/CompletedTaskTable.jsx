@@ -12,7 +12,7 @@ export default function CompletedTaskTable({ tasks, onToggleComplete }) {
                         name={task.name}
                         completed={task.completed}
                         completionDate={task.completionDate}
-                        onToggle={() => onToggleComplete(task.id)}
+                        onToggle={() => onToggleComplete(task.id, false)}
                     />
                 ))
             }

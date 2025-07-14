@@ -34,25 +34,27 @@ function Planit() {
     return today.toISOString().split("T")[0]; // splits the string into substrings at the "T" and takes the date part
   }
 
-  const toggleTaskCompleted = (id) => {
-    // set streak
-    const today = getTodayString();
-    if (lastCompletedDate === today) {
-      console.log(lastCompletedDate);
-      console.log(getTodayString(new Date()));
-      console.log("not working?");
-      // task already completed, do nothing
-    } else if (
-      lastCompletedDate === null || new Date(today) - new Date(lastCompletedDate) === 86400000 // one day after last streak set
-    ) {
-      setStreak(prev => prev + 1);
-      console.log("working?");
-    } else {
-      setStreak(1);
+  const toggleTaskCompleted = (id, complete) => {
+    if (complete) {
+      // set streak
+      const today = getTodayString();
+      if (lastCompletedDate === today) {
+        console.log(lastCompletedDate);
+        console.log(getTodayString(new Date()));
+        console.log("not working?");
+        // task already completed, do nothing
+      } else if (
+        lastCompletedDate === null || new Date(today) - new Date(lastCompletedDate) === 86400000 // one day after last streak set
+      ) {
+        setStreak(prev => prev + 1);
+        console.log("working?");
+      } else {
+        setStreak(1);
+      }
+      setLastCompletedDate(today);
+      localStorage.setItem("lastCompletedDate", today);
+      console.log(streak);
     }
-    setLastCompletedDate(today);
-    localStorage.setItem("lastCompletedDate", today);
-    console.log(streak);
 
     const updatedTasks = tasks.map((task) => {
       if (task.id === id) {
@@ -78,7 +80,7 @@ function Planit() {
   return (
     <div className="planit">
       <div>
-        <Header steak={streak} />
+        <Header streak={streak} />
       </div>
       <div className="all-tasks">
         <div>

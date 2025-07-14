@@ -13,7 +13,7 @@ export default function TaskTable({ tasks, onAddTask, onToggleComplete }) {
                         name={task.name}
                         deadline={task.deadline}
                         completed={task.completed}
-                        onToggle={() => onToggleComplete(task.id)}
+                        onToggle={() => onToggleComplete(task.id, true)}
                     />
                 ))}
             <NewTask onAddTask={onAddTask} />
