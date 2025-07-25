@@ -27,7 +27,7 @@ export default function NewTask({ onAddTask }) {
     return (
         <div className="new-task">
             {!showForm ? (
-                <button onClick={() => setShowForm(true)}>New Task</button>
+                <button className="new-task-button" onClick={() => setShowForm(true)}>New Task</button>
             ) : (
                 <form onSubmit={handleSubmit}>
                     <input

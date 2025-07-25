@@ -1,0 +1,39 @@
+@import '../index.css';
+
+.hamburger-container {
+    position: absolute;
+    /* allows its position to be relative to its normal position */
+    right: 20px;
+    top: 15px;
+}
+
+.hamburger {
+    background: none;
+    border: none;
+    /* this and background make it less like a normal button */
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-color, #000);
+    transition: color 0.3s;
+}
+
+.menu-dropdown {
+    position: absolute;
+    right: 0;
+    top: 50px;
+}
+
+.theme-toggle-button {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    padding: 0.4rem 0.8rem;
+    border: 2px solid var(--text-color);
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.theme-toggle-button:hover {
+    background-color: var(--text-color);
+    color: var(--background-color);
+}

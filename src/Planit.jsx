@@ -2,10 +2,11 @@ import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import './index.css'
 import Header from './components/Header.jsx'
 import TaskTable from './components/TaskTable.jsx'
 import CompletedTaskTable from './components/CompletedTaskTable.jsx'
-import Settings from './components/Settings.jsx'
+import HamburgerMenu from './components/HamburgerMenu.jsx'
 import { formatDate } from './utils.jsx'
 
 function Planit() {
@@ -73,28 +74,26 @@ function Planit() {
   }, [streak]); // saves streak in localStorage
 
   return (
-    <div className="planit">
-      <div>
+    <div className="app-container">
+      <header>
         <Header streak={streak} />
-      </div>
-      <div className="all-tasks">
-        <div>
+        <HamburgerMenu />
+      </header>
+      <main className="task-columns">
+        <div className="column">
           <TaskTable
             tasks={tasks} // task filtering done in TaskTable
             onAddTask={addTask}
             onToggleComplete={toggleTaskCompleted}
           />
         </div>
-        <div>
+        <div className="column">
           <CompletedTaskTable
             tasks={tasks}
             onToggleComplete={toggleTaskCompleted}
           />
         </div>
-      </div>
-      <div className="settings">
-        <Settings />
-      </div>
+      </main>
     </div>
   )
 }

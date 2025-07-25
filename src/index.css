@@ -1,31 +1,70 @@
 :root {
   font-family: system-ui;
   line-height: 1.5;
-  background-color: var(--bg-color);
+  background-color: var(--background-color);
   color: var(--text-color);
 }
 
 /* actually changes the color of the background */
 body {
-  background-color: var(--bg-color);
+  background-color: var(--background-color);
   color: var(--text-color);
   transition: background 0.3s, color 0.3s;
 }
 
 /* used for defining variables only */
 body.light {
-  --bg-color: white;
-  --text-color: black;
+  --background-color: #f5f5f5;
+  --task-background: #ffffff;
+  --text-color: #1e1e1e;
 }
 
 body.dark {
-  --bg-color: #121212;
+  --background-color: #262626;
   /* css variables*/
-  --text-color: white;
+  --task-background: #2c2c2c;
+  --text-color: #f0f0f0;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+header {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-columns {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+  max-width: 1000px;
+  margin-top: 20px;
+}
+
+.column {
+  flex: 1;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 /* div {
-  background-color: var(--bg-color);
+  background-color: var(--background-color);
   color: var(--text-color);
 } */
 
