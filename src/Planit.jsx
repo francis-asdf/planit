@@ -26,7 +26,7 @@ function Planit() {
   });
 
   const addTask = (task) => {
-    task.deadline = formatDate(new Date(task.deadline));
+    // task.deadline = formatDate(new Date(task.deadline));
     setTasks([...tasks, task]); // adds the newest task to the list of tasks
   }
 

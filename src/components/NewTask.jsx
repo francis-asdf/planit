@@ -7,7 +7,7 @@ export default function NewTask({ onAddTask }) {
     const [deadline, setDeadline] = useState("");
 
     const handleSubmit = (event) => {
-        event.preventDefault();
+        event.preventDefault(); // prevents page reload
         if (!taskName.trim() || !deadline.trim()) return; // trim() removes whitespace => if empty, return
 
         const newTask = {
@@ -18,6 +18,7 @@ export default function NewTask({ onAddTask }) {
             completionDate: null
         };
 
+        console.log(deadline);
         onAddTask(newTask);
         setTaskName(""); // resets text fields
         setDeadline("");
@@ -29,21 +30,26 @@ export default function NewTask({ onAddTask }) {
             {!showForm ? (
                 <button className="new-task-button" onClick={() => setShowForm(true)}>New Task</button>
             ) : (
-                <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        placeholder="Task name"
-                        value={taskName}
-                        onChange={(e) => setTaskName(e.target.value)}
-                    />
-                    <input
-                        type="datetime-local"
-                        value={deadline}
-                        onChange={(e) => setDeadline(e.target.value)}
-                    />
-                    <button type="submit">Add</button>
-                    <button type="button" onClick={() => setShowForm(false)}>Cancel</button> {/* type="button" to avoid default: submitting */}
-                </form>
+                <div className="modal-overlay" onClick={() => setShowForm(false)}> {/* backdrop behind dialog box */}
+                    <div className="modal-content" onClick={(e) => e.stopPropagation()}> {/* stops clicks inside the form from closing the modal */}
+                        <form onSubmit={handleSubmit}>
+                            <h3>New Task</h3>
+                            <input
+                                type="text"
+                                placeholder="Task name"
+                                value={taskName}
+                                onChange={(e) => setTaskName(e.target.value)}
+                            />
+                            <input
+                                type="datetime-local"
+                                value={deadline}
+                                onChange={(e) => setDeadline(e.target.value)}
+                            />
+                            <button type="submit">Add</button>
+                            <button type="button" onClick={() => setShowForm(false)}>Cancel</button> {/* type="button" to avoid default: submitting */}
+                        </form>
+                    </div>
+                </div>
             )}
         </div>
     )

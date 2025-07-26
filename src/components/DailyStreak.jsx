@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useWindowSize } from '@react-hook/window-size';
+import ReactConfetti from 'react-confetti';
 
 export default function DailyStreak({ streak }) {
     const [prevStreak, setPrevStreak] = useState(streak);
@@ -9,6 +10,7 @@ export default function DailyStreak({ streak }) {
     useEffect(() => {
         if (streak > prevStreak) {
             setShowConfetti(true);
+            console.log("WOOHOO!!");
             setTimeout(() => setShowConfetti(false), 3000);
         }
         setPrevStreak(streak);
@@ -16,7 +18,7 @@ export default function DailyStreak({ streak }) {
 
     return (
         <div className="streak">
-            {showConfetti && <Confetti width={width} height={height} />}
+            {showConfetti && <ReactConfetti width={width} height={height} />}
             <h3>🔥 Daily Streak: {streak || 0} day{streak === 1 ? "" : "s"}.</h3>
         </div>
     )
