@@ -18,7 +18,6 @@ export default function NewTask({ onAddTask }) {
             completionDate: null
         };
 
-        console.log(deadline);
         onAddTask(newTask);
         setTaskName(""); // resets text fields
         setDeadline("");
