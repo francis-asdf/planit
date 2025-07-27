@@ -9,9 +9,7 @@ export default function CompletedTaskTable({ tasks, onToggleComplete }) {
                 .map(task => (
                     <CompletedTask
                         key={task.id}
-                        name={task.name}
-                        completed={task.completed}
-                        completionDate={task.completionDate}
+                        task={task}
                         onToggle={() => onToggleComplete(task.id, false)}
                     />
                 ))

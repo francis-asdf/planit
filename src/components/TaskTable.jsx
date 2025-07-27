@@ -14,9 +14,7 @@ export default function TaskTable({ tasks, onAddTask, onToggleComplete }) {
                 .map(task => (
                     <Task
                         key={task.id}
-                        name={task.name}
-                        deadline={task.deadline}
-                        completed={task.completed}
+                        task={task}
                         onToggle={() => onToggleComplete(task.id, true)}
                     />
                 ))}
