@@ -40,7 +40,7 @@ function Planit() {
       // set streak
       const today = getTodayString();
       if (lastCompletedDate === today) {
-        // task already completed, do nothing
+        // daily task already completed, do nothing
       } else if (
         lastCompletedDate === null || new Date(today) - new Date(lastCompletedDate) === 86400000 // one day after last streak set
       ) {
