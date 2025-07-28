@@ -8,13 +8,16 @@ import HamburgerMenu from './components/HamburgerMenu.jsx'
 
 export default function Planit() {
   // all tasks have {id, name, deadline, completed, completionDate}
-  const [tasks, setTasks] = useState([
-    { id: 1, name: "Vacuum the house", deadline: "2025-07-06T19:00", completed: true, completionDate: "2025-07-06T17:27" },
-    { id: 2, name: "Do the dishes", deadline: "2025-07-07T20:00", completed: true, completionDate: "2025-07-07T19:58" },
-    { id: 3, name: "Take out the trash", deadline: "2025-07-09T07:00", completed: false, completionDate: null },
-    { id: 4, name: "Do physics homework", deadline: "2025-07-10T08:00", completed: false, completionDate: null },
-    { id: 5, name: "Organize university applications", deadline: "2025-07-27T20:00", completed: false, completionDate: null }
-  ]);
+  const [tasks, setTasks] = useState(() => {
+    const stored = localStorage.getItem("tasks");
+    return stored ? JSON.parse(stored) : [
+      { id: 1, name: "Vacuum the house", deadline: "2025-07-06T19:00", completed: true, completionDate: "2025-07-06T17:27" },
+      { id: 2, name: "Do the dishes", deadline: "2025-07-07T20:00", completed: true, completionDate: "2025-07-07T19:58" },
+      { id: 3, name: "Take out the trash", deadline: "2025-07-09T07:00", completed: false, completionDate: null },
+      { id: 4, name: "Do physics homework", deadline: "2025-07-10T08:00", completed: false, completionDate: null },
+      { id: 5, name: "Organize university applications", deadline: "2025-07-27T20:00", completed: false, completionDate: null }
+    ];
+  });
   const [streak, setStreak] = useState(() => {
     return parseInt(localStorage.getItem("streak")) || 0;
   });
@@ -77,8 +80,12 @@ export default function Planit() {
   }
 
   useEffect(() => {
-    localStorage.setItem("streak", streak);
+    localStorage.setItem("streak", JSON.stringify(streak));
   }, [streak]); // saves streak in localStorage
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   return (
     <div className="app-container">
