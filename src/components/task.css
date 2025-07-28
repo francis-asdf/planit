@@ -1,11 +1,15 @@
 @import '../index.css';
 
+.task-container {
+    position: relative;
+}
+
 .task-header {
     display: flex;
     justify-content: space-between;
 }
 
-.task {
+.task-content {
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 15px;
@@ -13,7 +17,7 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-body.dark .task {
+body.dark .task-content {
     box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1);
 }
 
@@ -54,65 +58,24 @@ body.dark .task {
     background-color: #43a047;
 }
 
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+.edit-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: gray;
+}
+
+.edit-task-buttons {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-    animation: fadeIn 0.3s ease-in-out;
+    justify-content: space-between;
+    gap: 1rem;
 }
 
-.modal-content {
-    background-color: var(--task-section-background);
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-    z-index: 11;
-    animation: slideUp 0.3s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes slideUp {
-    from {
-        transform: translateY(20px);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-.new-task form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 1rem;
-}
-
-.new-task h3 {
-    margin-top: 0;
-    margin-bottom: 0.5rem;
-}
-
-.new-task input {
-    padding: 0.5rem;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+.edit-task-delete-button {
+    background-color: #f87171;
+    color: white;
 }

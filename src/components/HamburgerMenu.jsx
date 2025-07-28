@@ -5,7 +5,7 @@ import './hamburgerMenu.css'
 function DarkMode({ isDarkMode, toggleDarkMode }) {
     return (
         <button className="theme-toggle-button" onClick={toggleDarkMode}>
-            {isDarkMode ? "Light mode" : "Dark mode"}
+            {isDarkMode ? <i className="fa-solid fa-sun"></i> : <i className="fa-solid fa-moon"></i>}
         </button>
     )
 }
@@ -25,7 +25,7 @@ export default function HamburgerMenu() {
             </button>
 
             {open && (
-                <div className="menu-dropdown">
+                <div className={`menu ${open ? 'menu-open' : ''}`}>
                     <DarkMode isDarkMode={isDarkMode} toggleDarkMode={() => setIsDarkMode(!isDarkMode)} />
                 </div>
             )}

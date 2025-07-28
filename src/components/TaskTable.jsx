@@ -2,7 +2,7 @@ import Task from './Task.jsx'
 import NewTask from './NewTask.jsx'
 import './task.css'
 
-export default function TaskTable({ tasks, onAddTask, onToggleComplete }) {
+export default function TaskTable({ tasks, onAddTask, onToggleComplete, onUpdateTask, onDeleteTask }) {
     return (
         <div className="task-table">
             <div className="task-header">
@@ -16,6 +16,8 @@ export default function TaskTable({ tasks, onAddTask, onToggleComplete }) {
                         key={task.id}
                         task={task}
                         onToggle={() => onToggleComplete(task.id, true)}
+                        onUpdateTask={() => onUpdateTask(task)}
+                        onDeleteTask={() => onDeleteTask(task.id)}
                     />
                 ))}
         </div>

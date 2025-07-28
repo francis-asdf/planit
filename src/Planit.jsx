@@ -1,15 +1,12 @@
 import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import './index.css'
 import Header from './components/Header.jsx'
 import TaskTable from './components/TaskTable.jsx'
 import CompletedTaskTable from './components/CompletedTaskTable.jsx'
 import HamburgerMenu from './components/HamburgerMenu.jsx'
-import { formatDate } from './utils.jsx'
 
-function Planit() {
+export default function Planit() {
   // all tasks have {id, name, deadline, completed, completionDate}
   const [tasks, setTasks] = useState([
     { id: 1, name: "Vacuum the house", deadline: "2025-07-06T19:00", completed: true, completionDate: "2025-07-06T17:27" },
@@ -69,6 +66,16 @@ function Planit() {
     setTasks(updatedTasks);
   }
 
+  const updateTask = (updatedTask) => {
+    setTasks((originalTasks) =>
+      originalTasks.map((task) => task.id === updatedTask.id ? updatedTask : task)
+    )
+  }
+
+  const deleteTask = (id) => {
+    setTasks((prev) => prev.filter((task) => task.id !== id))
+  }
+
   useEffect(() => {
     localStorage.setItem("streak", streak);
   }, [streak]); // saves streak in localStorage
@@ -85,46 +92,19 @@ function Planit() {
             tasks={tasks} // task filtering done in TaskTable
             onAddTask={addTask}
             onToggleComplete={toggleTaskCompleted}
+            onUpdateTask={updateTask}
+            onDeleteTask={deleteTask}
           />
         </div>
         <div className="column">
           <CompletedTaskTable
             tasks={tasks}
             onToggleComplete={toggleTaskCompleted}
+            onUpdateTask={updateTask}
+            onDeleteTask={deleteTask}
           />
         </div>
       </main>
     </div>
   )
 }
-
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
-
-export default Planit

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './task.css'
+import './modal.css'
 
 export default function NewTask({ onAddTask }) {
     const [showForm, setShowForm] = useState(false);

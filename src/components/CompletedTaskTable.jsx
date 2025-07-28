@@ -1,6 +1,6 @@
 import CompletedTask from './CompletedTask.jsx'
 
-export default function CompletedTaskTable({ tasks, onToggleComplete }) {
+export default function CompletedTaskTable({ tasks, onToggleComplete, onUpdateTask, onDeleteTask }) {
     return (
         <div className="completed-task-table">
             <h2>Completed Tasks</h2>
@@ -11,6 +11,8 @@ export default function CompletedTaskTable({ tasks, onToggleComplete }) {
                         key={task.id}
                         task={task}
                         onToggle={() => onToggleComplete(task.id, false)}
+                        onUpdateTask={() => onUpdateTask(task)}
+                        onDeleteTask={() => onDeleteTask(task.id)}
                     />
                 ))
             }
