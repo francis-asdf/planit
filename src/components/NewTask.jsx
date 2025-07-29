@@ -6,6 +6,13 @@ export default function NewTask({ onAddTask }) {
     const [showForm, setShowForm] = useState(false);
     const [taskName, setTaskName] = useState("");
     const [deadline, setDeadline] = useState("");
+    const [description, setDescription] = useState("");
+
+    const resetFields = () => {
+        setTaskName("");
+        setDeadline("");
+        setDescription("");
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault(); // prevents page reload
@@ -15,14 +22,14 @@ export default function NewTask({ onAddTask }) {
             id: crypto.randomUUID(), // randomly assigns an ID
             name: taskName,
             deadline: deadline,
+            description: description,
             completed: false,
             completionDate: null
         };
 
         onAddTask(newTask);
-        setTaskName(""); // resets text fields
-        setDeadline("");
-        setShowForm(false); // closes form
+        resetFields();
+        setShowForm(false);
     }
 
     return (
@@ -45,8 +52,16 @@ export default function NewTask({ onAddTask }) {
                                 value={deadline}
                                 onChange={(e) => setDeadline(e.target.value)}
                             />
+                            <textarea
+                                placeholder="Description"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
                             <button type="submit">Add</button>
-                            <button type="button" onClick={() => setShowForm(false)}>Cancel</button> {/* type="button" to avoid default: submitting */}
+                            <button type="button" onClick={() => {
+                                resetFields();
+                                setShowForm(false);
+                            }}>Cancel</button> {/* type="button" to avoid default: submitting */}
                         </form>
                     </div>
                 </div>

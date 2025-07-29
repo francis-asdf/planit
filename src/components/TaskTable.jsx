@@ -16,8 +16,8 @@ export default function TaskTable({ tasks, onAddTask, onToggleComplete, onUpdate
                         key={task.id}
                         task={task}
                         onToggle={() => onToggleComplete(task.id, true)}
-                        onUpdateTask={() => onUpdateTask(task)}
-                        onDeleteTask={() => onDeleteTask(task.id)}
+                        onUpdateTask={(updatedTask) => onUpdateTask(updatedTask)}
+                        onDeleteTask={(id) => onDeleteTask(id)}
                     />
                 ))}
         </div>

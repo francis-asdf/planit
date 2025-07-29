@@ -36,8 +36,8 @@ export default function CompletedTask({ task, onToggle, onUpdateTask, onDeleteTa
                 <EditTaskModal
                     task={task}
                     onClose={() => setShowModal(false)}
-                    onUpdate={onUpdateTask}
-                    onDelete={onDeleteTask}
+                    onUpdate={(updatedTask) => onUpdateTask(updatedTask)}
+                    onDelete={(id) => onDeleteTask(id)}
                 />
             )}
         </div>
