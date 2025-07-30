@@ -6,6 +6,7 @@ export default function CompletedTaskTable({ tasks, onToggleComplete, onUpdateTa
             <h2>Completed Tasks</h2>
             {tasks
                 .filter(task => task.completed)
+                .sort((a, b) => new Date(b.completionDate) - new Date(a.completionDate))
                 .map(task => (
                     <CompletedTask
                         key={task.id}

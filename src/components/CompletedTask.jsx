@@ -20,7 +20,7 @@ export default function CompletedTask({ task, onToggle, onUpdateTask, onDeleteTa
                 </div>
                 <div className="task-meta">
                     <p className="task-completion-date">Completed {formatDate(new Date(task.completionDate))}</p>
-                    <p className="task-points">{task.points} points</p>
+                    <p className="task-points">{task.points} point{task.points === 1 ? "" : "s"}</p>
                 </div>
             </div>
 

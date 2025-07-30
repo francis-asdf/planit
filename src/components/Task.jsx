@@ -20,7 +20,7 @@ export default function Task({ task, onToggle, onUpdateTask, onDeleteTask }) {
                 </div>
                 <div className="task-meta">
                     <p className="task-deadline">Due {formatDate(new Date(task.deadline))}</p>
-                    <p className="task-points">{task.points} points</p>
+                    <p className="task-points">{task.points} point{task.points === 1 ? "" : "s"}</p>
                 </div>
             </div>
 
