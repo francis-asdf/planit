@@ -87,6 +87,10 @@ export default function Planit() {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
+  useEffect(() => {
+    document.body.classList.remove("preload");
+  }, []); // disables transitions only on preload to avoid flicker effects
+
   return (
     <div className="app-container">
       <header>

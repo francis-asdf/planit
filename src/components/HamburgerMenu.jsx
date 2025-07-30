@@ -12,10 +12,14 @@ function DarkMode({ isDarkMode, toggleDarkMode }) {
 
 export default function HamburgerMenu() {
     const [open, setOpen] = useState(false);
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(() => {
+        const stored = localStorage.getItem("isDarkMode");
+        return stored ? JSON.parse(stored) : false;
+    });
 
     useEffect(() => {
         document.body.className = isDarkMode ? "dark" : "light";
+        localStorage.setItem("isDarkMode", JSON.stringify(isDarkMode));
     }, [isDarkMode]); // changes body's class name, which is reflected in change in background-color and color
 
     return (
