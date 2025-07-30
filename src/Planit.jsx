@@ -7,15 +7,15 @@ import CompletedTaskTable from './components/CompletedTaskTable.jsx'
 import HamburgerMenu from './components/HamburgerMenu.jsx'
 
 export default function Planit() {
-  // all tasks have {id, name, deadline, description, completed, completionDate}
+  // all tasks have {id, name, deadline, description, points, completed, completionDate}
   const [tasks, setTasks] = useState(() => {
     const stored = localStorage.getItem("tasks");
     return stored ? JSON.parse(stored) : [
-      { id: 1, name: "Vacuum the house", deadline: "2025-07-06T19:00", description: "Vacuum stairs and upstairs", completed: true, completionDate: "2025-07-06T17:27" },
-      { id: 2, name: "Do the dishes", deadline: "2025-07-07T20:00", description: "", completed: true, completionDate: "2025-07-07T19:58" },
-      { id: 3, name: "Take out the trash", deadline: "2025-07-09T07:00", description: "Recycling", completed: false, completionDate: null },
-      { id: 4, name: "Do physics homework", deadline: "2025-07-10T08:00", description: "Finish Faraday's law questions", completed: false, completionDate: null },
-      { id: 5, name: "Organize university applications", deadline: "2025-07-27T20:00", description: "Record soft and hard deadlines for each university and detailed scheduling plans", completed: false, completionDate: null }
+      { id: 1, name: "Vacuum the house", deadline: "2025-07-06T19:00", description: "Vacuum stairs and upstairs", points: 5, completed: true, completionDate: "2025-07-06T17:27" },
+      { id: 2, name: "Do the dishes", deadline: "2025-07-07T20:00", description: "", points: 5, completed: true, completionDate: "2025-07-07T19:58" },
+      { id: 3, name: "Take out the trash", deadline: "2025-07-09T07:00", description: "Recycling", points: 3, completed: false, completionDate: null },
+      { id: 4, name: "Do physics homework", deadline: "2025-07-10T08:00", description: "Finish Faraday's law questions", points: 10, completed: false, completionDate: null },
+      { id: 5, name: "Organize university applications", deadline: "2025-07-27T20:00", description: "Record soft and hard deadlines for each university and detailed scheduling plans", points: 50, completed: false, completionDate: null }
     ];
   });
   const [streak, setStreak] = useState(() => {

@@ -7,11 +7,13 @@ export default function NewTask({ onAddTask }) {
     const [taskName, setTaskName] = useState("");
     const [deadline, setDeadline] = useState("");
     const [description, setDescription] = useState("");
+    const [points, setPoints] = useState(1);
 
     const resetFields = () => {
         setTaskName("");
         setDeadline("");
         setDescription("");
+        setPoints(1);
     }
 
     const handleSubmit = (event) => {
@@ -23,6 +25,7 @@ export default function NewTask({ onAddTask }) {
             name: taskName,
             deadline: deadline,
             description: description,
+            points: points,
             completed: false,
             completionDate: null
         };
@@ -56,6 +59,15 @@ export default function NewTask({ onAddTask }) {
                                 placeholder="Description"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
+                            />
+                            <label htmlFor="points-slider">Points: {points}</label>
+                            <input
+                                type="range"
+                                min="1"
+                                max="50"
+                                step="1"
+                                value={points}
+                                onChange={(e) => setPoints(parseInt(e.target.value))}
                             />
                             <button type="submit">Add</button>
                             <button type="button" onClick={() => {

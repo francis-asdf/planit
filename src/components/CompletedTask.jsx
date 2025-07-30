@@ -18,8 +18,9 @@ export default function CompletedTask({ task, onToggle, onUpdateTask, onDeleteTa
                     <input type="checkbox" id={task.name} name={task.name} checked={task.completed} onChange={onToggle} />
                     <label htmlFor={task.name}>{task.name}</label>
                 </div>
-                <div className="task-completion-date">
-                    <p>Completed {formatDate(new Date(task.completionDate))}</p>
+                <div className="task-meta">
+                    <p className="task-completion-date">Completed {formatDate(new Date(task.completionDate))}</p>
+                    <p className="task-points">{task.points} points</p>
                 </div>
             </div>
 

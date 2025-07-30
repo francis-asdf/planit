@@ -31,11 +31,13 @@ body.dark .task-content {
     margin-right: 10px;
 }
 
-.task-deadline,
-.task-completion-date {
+.task-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2px;
     font-size: 0.85rem;
     color: #888;
-    margin-top: 4px;
 }
 
 .task.completed .content {

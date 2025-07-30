@@ -18,8 +18,9 @@ export default function Task({ task, onToggle, onUpdateTask, onDeleteTask }) {
                     <input type="checkbox" id={task.name} name={task.name} checked={task.completed} onChange={onToggle} />
                     <label htmlFor={task.name}>{task.name}</label>
                 </div>
-                <div className="task-deadline">
-                    <p>Due {formatDate(new Date(task.deadline))}</p>
+                <div className="task-meta">
+                    <p className="task-deadline">Due {formatDate(new Date(task.deadline))}</p>
+                    <p className="task-points">{task.points} points</p>
                 </div>
             </div>
 
