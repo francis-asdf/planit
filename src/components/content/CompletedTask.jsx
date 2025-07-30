@@ -1,13 +1,11 @@
 import './task.css'
 import './modal.css'
-import EditTaskModal from './EditTaskModal'
-import { formatDate } from '../utils.jsx'
+import EditTaskModal from './EditTaskModal.jsx'
+import { formatDate } from '../../utils.jsx'
 import { useState } from 'react'
 
-export default function Task({ task, onToggle, onUpdateTask, onDeleteTask }) {
+export default function CompletedTask({ task, onToggle, onUpdateTask, onDeleteTask }) {
     const [showModal, setShowModal] = useState(false);
-
-    const isOverdue = new Date(task.deadline) < new Date();
 
     return (
         <div
@@ -15,13 +13,13 @@ export default function Task({ task, onToggle, onUpdateTask, onDeleteTask }) {
             onMouseEnter={() => setShowModal(true)}
             onMouseLeave={() => setShowModal(false)}
         >
-            <div className={`task-content ${isOverdue ? "overdue" : ""}`}>
+            <div className="task-content completed">
                 <div className="task-title">
                     <input type="checkbox" id={task.name} name={task.name} checked={task.completed} onChange={onToggle} />
                     <label htmlFor={task.name}>{task.name}</label>
                 </div>
                 <div className="task-meta">
-                    <p className="task-deadline">Due {formatDate(new Date(task.deadline))}</p>
+                    <p className="task-completion-date">Completed {formatDate(new Date(task.completionDate))}</p>
                     <p className="task-points">{task.points} point{task.points === 1 ? "" : "s"}</p>
                 </div>
             </div>

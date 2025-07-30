@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
-import './App.css'
 import './index.css'
-import Header from './components/Header.jsx'
-import TaskTable from './components/TaskTable.jsx'
-import CompletedTaskTable from './components/CompletedTaskTable.jsx'
-import HamburgerMenu from './components/HamburgerMenu.jsx'
+import Header from './components/header/Header.jsx'
+import TaskTable from './components/content/TaskTable.jsx'
+import CompletedTaskTable from './components/content/CompletedTaskTable.jsx'
+import HamburgerMenu from './components/header/HamburgerMenu.jsx'
 
 export default function Planit() {
   // all tasks have {id, name, deadline, description, points, completed, completionDate}

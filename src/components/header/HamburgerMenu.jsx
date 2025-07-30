@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import '../index.css'
+import '../../index.css'
 import './hamburgerMenu.css'
 
 function DarkMode({ isDarkMode, toggleDarkMode }) {
