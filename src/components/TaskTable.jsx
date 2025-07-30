@@ -1,3 +1,4 @@
+import { motion, AnimatePresence } from 'framer-motion'
 import Task from './Task.jsx'
 import NewTask from './NewTask.jsx'
 import './task.css'
@@ -21,18 +22,30 @@ export default function TaskTable({ tasks, onAddTask, onToggleComplete, onUpdate
                 <h2>Active Tasks</h2>
                 <NewTask onAddTask={onAddTask} />
             </div>
-            {tasks
-                .filter(task => !task.completed)
-                .sort((a, b) => getScore(a) - getScore(b)) // ascending order sorting
-                .map(task => (
-                    <Task
-                        key={task.id}
-                        task={task}
-                        onToggle={() => onToggleComplete(task.id, true)}
-                        onUpdateTask={(updatedTask) => onUpdateTask(updatedTask)}
-                        onDeleteTask={(id) => onDeleteTask(id)}
-                    />
-                ))}
+            <AnimatePresence> {/* used for smooth removal */}
+                {tasks
+                    .filter(task => !task.completed)
+                    .sort((a, b) => getScore(a) - getScore(b)) // ascending order sorting
+                    .map(task => (
+                        <motion.div
+                            key={task.id}
+                            layout
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            transition={{ duration: 0.3 }}
+                        >
+                            <Task
+                                key={task.id}
+                                task={task}
+                                onToggle={() => onToggleComplete(task.id, true)}
+                                onUpdateTask={(updatedTask) => onUpdateTask(updatedTask)}
+                                onDeleteTask={(id) => onDeleteTask(id)}
+                            />
+                        </motion.div>
+                    ))
+                }
+            </AnimatePresence>
         </div>
     )
 }
