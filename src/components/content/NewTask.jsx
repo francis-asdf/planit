@@ -27,7 +27,8 @@ export default function NewTask({ onAddTask }) {
             description: description,
             points: points,
             completed: false,
-            completionDate: null
+            completionDate: null,
+            completedOnce: false
         };
 
         onAddTask(newTask);

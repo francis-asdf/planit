@@ -17,7 +17,7 @@ export default function Task({ task, onToggle, onUpdateTask, onDeleteTask }) {
         >
             <div className={`task-content ${isOverdue ? "overdue" : ""}`}>
                 <div className="task-title">
-                    <input type="checkbox" id={task.name} name={task.name} checked={task.completed} onChange={onToggle} />
+                    <input type="checkbox" id={task.name} name={task.name} checked={task.completed} onChange={() => onToggle(task)} />
                     <label htmlFor={task.name}>{task.name}</label>
                 </div>
                 <div className="task-meta">

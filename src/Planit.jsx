@@ -5,16 +5,16 @@ import TaskTable from './components/content/TaskTable.jsx'
 import CompletedTaskTable from './components/content/CompletedTaskTable.jsx'
 import HamburgerMenu from './components/header/HamburgerMenu.jsx'
 
+// all tasks have {id, name, deadline, description, points, completed, completionDate, completedOnce}
 const initialTasks = [
-  { id: 1, name: "Vacuum the house", deadline: "2025-07-06T19:00", description: "Vacuum stairs and upstairs", points: 5, completed: true, completionDate: "2025-07-06T17:27" },
-  { id: 2, name: "Do the dishes", deadline: "2025-07-07T20:00", description: "", points: 5, completed: true, completionDate: "2025-07-07T19:58" },
-  { id: 3, name: "Take out the trash", deadline: "2025-07-09T07:00", description: "Recycling", points: 3, completed: false, completionDate: null },
-  { id: 4, name: "Do physics homework", deadline: "2025-07-10T08:00", description: "Finish Faraday's law questions", points: 10, completed: false, completionDate: null },
-  { id: 5, name: "Organize university applications", deadline: "2025-07-27T20:00", description: "Record soft and hard deadlines for each university and detailed scheduling plans", points: 50, completed: false, completionDate: null }
+  { id: 1, name: "Vacuum the house", deadline: "2025-07-06T19:00", description: "Vacuum stairs and upstairs", points: 5, completed: true, completionDate: "2025-07-06T17:27", completedOnce: true },
+  { id: 2, name: "Do the dishes", deadline: "2025-07-07T20:00", description: "", points: 5, completed: true, completionDate: "2025-07-07T19:58", completedOnce: true },
+  { id: 3, name: "Take out the trash", deadline: "2025-07-09T07:00", description: "Recycling", points: 3, completed: false, completionDate: null, completedOnce: false },
+  { id: 4, name: "Do physics homework", deadline: "2025-07-10T08:00", description: "Finish Faraday's law questions", points: 10, completed: false, completionDate: null, completedOnce: false },
+  { id: 5, name: "Organize university applications", deadline: "2025-07-27T20:00", description: "Record soft and hard deadlines for each university and detailed scheduling plans", points: 50, completed: false, completionDate: null, completedOnce: false }
 ];
 
 export default function Planit() {
-  // all tasks have {id, name, deadline, description, points, completed, completionDate}
   const [tasks, setTasks] = useState(() => {
     const stored = localStorage.getItem("tasks");
     return stored ? JSON.parse(stored) : initialTasks;
@@ -25,6 +25,24 @@ export default function Planit() {
   const [lastCompletedDate, setLastCompletedDate] = useState(() => {
     return localStorage.getItem("lastCompletedDate") || null; // localStorage stores stuff between refreshes
   });
+  const [level, setLevel] = useState(() => {
+    return parseInt(localStorage.getItem("level")) || 1;
+  });
+  const [currentPoints, setCurrentPoints] = useState(() => {
+    return parseInt(localStorage.getItem("currentPoints")) || 0;
+  });
+
+  const pointsNeeded = (level) => {
+    return 40 + (level - 2) * 10;
+  }
+
+  const updatePoints = (newPoints) => {
+    setCurrentPoints(currentPoints + newPoints);
+    while (currentPoints >= pointsNeeded(level + 1)) {
+      setCurrentPoints(currentPoints - pointsNeeded(level + 1));
+      setLevel(level + 1);
+    }
+  }
 
   const addTask = (task) => {
     // task.deadline = formatDate(new Date(task.deadline));
@@ -36,8 +54,8 @@ export default function Planit() {
     return today.toISOString().split("T")[0]; // splits the string into substrings at the "T" and takes the date part
   }
 
-  const toggleTaskCompleted = (id, complete) => {
-    if (complete) {
+  const toggleTaskCompleted = (updatedTask) => {
+    if (updatedTask.completed) {
       // set streak
       const today = getTodayString();
       if (lastCompletedDate === today) {
@@ -53,15 +71,20 @@ export default function Planit() {
       localStorage.setItem("lastCompletedDate", today);
     }
 
+    if (!updatedTask.completedOnce) { // ensures points for tasks are only awarded once
+      updatePoints(updatedTask.points);
+    }
+
     const updatedTasks = tasks.map((task) => {
-      if (task.id === id) {
+      if (task.id === updatedTask.id) {
         const isCompleted = !task.completed; // allows for toggling from complete to incomplete
         const currentDate = new Date();
 
         return {
           ...task,
           completed: isCompleted,
-          completionDate: isCompleted ? currentDate : null
+          completionDate: isCompleted ? currentDate : null,
+          completedOnce: true
         };
       } else {
         return task;
@@ -87,6 +110,14 @@ export default function Planit() {
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
+
+  useEffect(() => {
+    localStorage.setItem("level", JSON.stringify(level));
+  }, [level]);
+
+  useEffect(() => {
+    localStorage.setItem("currentPoints", JSON.stringify(currentPoints));
+  }, [currentPoints]);
 
   useEffect(() => {
     document.body.classList.remove("preload");

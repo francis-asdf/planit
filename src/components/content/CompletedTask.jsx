@@ -15,7 +15,7 @@ export default function CompletedTask({ task, onToggle, onUpdateTask, onDeleteTa
         >
             <div className="task-content completed">
                 <div className="task-title">
-                    <input type="checkbox" id={task.name} name={task.name} checked={task.completed} onChange={onToggle} />
+                    <input type="checkbox" id={task.name} name={task.name} checked={task.completed} onChange={() => onToggle(task)} />
                     <label htmlFor={task.name}>{task.name}</label>
                 </div>
                 <div className="task-meta">
