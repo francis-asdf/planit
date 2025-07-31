@@ -126,7 +126,12 @@ export default function Planit() {
   return (
     <div className="app-container">
       <header>
-        <Header streak={streak} />
+        <Header
+          streak={streak}
+          currentPoints={currentPoints}
+          level={level}
+          pointsForNextLevel={pointsNeeded(level + 1)}
+        />
         <HamburgerMenu />
       </header>
       <main className="task-columns">
