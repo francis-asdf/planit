@@ -4,7 +4,16 @@
     box-sizing: border-box;
 }
 
+/* a bunch of manual instructions to make things look good after flexbox screwed stuff up */
 .title {
+    max-height: 40px;
+}
+
+.greeting {
+    max-height: 50px;
+}
+
+.streak h3 {
     max-height: 30px;
 }
 
@@ -36,6 +45,7 @@
     flex-direction: column;
     align-items: flex-end;
     width: 100%;
+    margin-top: 22px;
 }
 
 .level-info {

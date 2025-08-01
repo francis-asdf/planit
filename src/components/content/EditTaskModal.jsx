@@ -28,22 +28,28 @@ export default function EditTaskModal({ task, onClose, onUpdate, onDelete }) {
                     <h3>Edit Task</h3>
                     <input
                         type="text"
+                        name="name"
+                        autoComplete="off"
                         value={taskName}
                         onChange={(e) => setTaskName(e.target.value)}
                     />
                     <input
                         type="datetime-local"
+                        name="deadline"
                         value={deadline}
                         onChange={(e) => setDeadline(e.target.value)}
                     />
                     <textarea
                         placeholder="Description"
+                        name="description"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
                     <label htmlFor="points-slider">Points: {points}</label>
                     <input
                         type="range"
+                        id="points-slider"
+                        name="points-slider"
                         min="1"
                         max="50"
                         step="1"

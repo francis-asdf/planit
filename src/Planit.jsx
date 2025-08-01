@@ -37,11 +37,15 @@ export default function Planit() {
   }
 
   const updatePoints = (newPoints) => {
-    setCurrentPoints(currentPoints + newPoints);
-    while (currentPoints >= pointsNeeded(level + 1)) {
-      setCurrentPoints(currentPoints - pointsNeeded(level + 1));
-      setLevel(level + 1);
+    // cannot directly change state variables immediately; update them at the end
+    let updatedPoints = currentPoints + newPoints;
+    let updatedLevel = level;
+    while (updatedPoints >= pointsNeeded(updatedLevel + 1)) {
+      updatedPoints -= pointsNeeded(updatedLevel + 1);
+      updatedLevel += 1;
     }
+    setCurrentPoints(updatedPoints);
+    setLevel(updatedLevel);
   }
 
   const addTask = (task) => {

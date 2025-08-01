@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useWindowSize } from '@react-hook/window-size';
 import ReactConfetti from 'react-confetti';
+import './header.css'
 
 export default function DailyStreak({ streak }) {
     const [prevStreak, setPrevStreak] = useState(streak);
@@ -12,7 +13,6 @@ export default function DailyStreak({ streak }) {
         if (streak > prevStreak) {
             setShowConfetti(true);
             setRecycleConfetti(true);
-            console.log("WOOHOO!!");
 
             setTimeout(() => setRecycleConfetti(false), 2500);
             setTimeout(() => setShowConfetti(false), 7500);

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import './header.css'
 
 export default function Greeting() {
     const [timeOfDay, setTimeOfDay] = useState("");
