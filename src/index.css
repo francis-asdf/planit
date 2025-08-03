@@ -10,6 +10,7 @@ body {
   background-color: var(--background-color);
   color: var(--text-color);
   transition: background 0.3s, color 0.3s;
+  /* this line needs to go everywhere there is a new element whose colour changes after toggling themes */
 }
 
 /* used for defining variables only */
@@ -56,6 +57,7 @@ header {
   padding: 2.5rem;
   margin: 1rem;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  transition: background 0.3s, color 0.3s;
 }
 
 .task-columns h2 {

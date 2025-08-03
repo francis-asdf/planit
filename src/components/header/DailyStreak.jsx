@@ -1,37 +1,22 @@
 import { useState, useEffect } from 'react'
-import { useWindowSize } from '@react-hook/window-size';
-import ReactConfetti from 'react-confetti';
+import { ConfettiWrapper } from '../../utils.jsx';
 import './header.css'
 
 export default function DailyStreak({ streak }) {
     const [prevStreak, setPrevStreak] = useState(streak);
-    const [showConfetti, setShowConfetti] = useState(false);
-    const [recycleConfetti, setRecycleConfetti] = useState(true);
-    const [width, height] = useWindowSize();
+    const [confettiTrigger, setConfettiTrigger] = useState(false);
 
     useEffect(() => {
         if (streak > prevStreak) {
-            setShowConfetti(true);
-            setRecycleConfetti(true);
-
-            setTimeout(() => setRecycleConfetti(false), 2500);
-            setTimeout(() => setShowConfetti(false), 7500);
+            setConfettiTrigger(true);
+            setTimeout(() => setConfettiTrigger(false), 100);
         }
         setPrevStreak(streak);
     }, [streak])
 
     return (
         <div className="streak">
-            {showConfetti && (
-                <ReactConfetti
-                    width={width}
-                    height={height}
-                    numberOfPieces={200}
-                    recycle={recycleConfetti}
-                    gravity={0.2}
-                    wind={0.01}
-                />
-            )}
+            <ConfettiWrapper trigger={confettiTrigger} />
             <h3>🔥 Daily Streak: {streak || 0} day{streak === 1 ? "" : "s"}.</h3>
         </div>
     )

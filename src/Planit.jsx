@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import './index.css'
+import DarkMode from './components/header/DarkMode.jsx'
 import Header from './components/header/Header.jsx'
 import TaskTable from './components/content/TaskTable.jsx'
 import CompletedTaskTable from './components/content/CompletedTaskTable.jsx'
@@ -107,6 +108,11 @@ export default function Planit() {
     setTasks((prev) => prev.filter((task) => task.id !== id))
   }
 
+  const resetProgress = () => {
+    setCurrentPoints(0);
+    setLevel(1);
+  }
+
   useEffect(() => {
     localStorage.setItem("streak", JSON.stringify(streak));
   }, [streak]); // saves streak in localStorage
@@ -130,13 +136,14 @@ export default function Planit() {
   return (
     <div className="app-container">
       <header>
+        <DarkMode />
         <Header
           streak={streak}
           currentPoints={currentPoints}
           level={level}
           pointsForNextLevel={pointsNeeded(level + 1)}
         />
-        <HamburgerMenu />
+        <HamburgerMenu resetProgress={resetProgress} />
       </header>
       <main className="task-columns">
         <div className="column">
