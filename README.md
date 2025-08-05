@@ -1,12 +1,11 @@
-# React + Vite
+# Planit
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Manage your day and boost your productivity with Planit! 
 
-Currently, two official plugins are available:
+Planit is a to-do list app where you can keep track of and prioritize your day-to-day tasks with ease. Create, update and delete tasks, and complete them to earn experience points and gain levels! With a clean and intuitive interface, you can get things done in no time with Planit. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Screenshot](screenshot.png)
 
-## Expanding the ESLint configuration
+## License
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+This project is licensed under the [MIT](LICENSE) license.
