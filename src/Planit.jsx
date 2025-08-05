@@ -70,21 +70,29 @@ export default function Planit() {
     return today.toISOString().split("T")[0]; // splits the string into substrings at the "T" and takes the date part
   }
 
-  const toggleTaskCompleted = (updatedTask) => {
-    if (updatedTask.completed) {
-      // set streak
-      const today = getTodayString();
-      if (lastCompletedDate === today) {
-        // daily task already completed, do nothing
-      } else if (
-        lastCompletedDate === null || new Date(today) - new Date(lastCompletedDate) === 86400000 // one day after last streak set
-      ) {
-        setStreak(prev => prev + 1);
-      } else {
-        setStreak(1);
-      }
+  const updateStreak = (completed) => { // completed parameter for whether to increment streak or not (this is called on mount)
+    const today = getTodayString();
+    if (lastCompletedDate === today) {
+      // daily task already completed, do nothing
+    } else if (
+      (lastCompletedDate === null || new Date(today) - new Date(lastCompletedDate) === 86400000) // one day after last streak set
+      && completed
+    ) {
+      setStreak(prev => prev + 1);
+    } else if (completed) {
+      setStreak(1);
+    } else {
+      setStreak(0);
+    }
+    if (completed) {
       setLastCompletedDate(today);
       localStorage.setItem("lastCompletedDate", today);
+    }
+  }
+
+  const toggleTaskCompleted = (updatedTask) => {
+    if (updatedTask.completed) {
+      updateStreak(true);
     }
 
     if (!updatedTask.completedOnce) { // ensures points for tasks are only awarded once
@@ -124,8 +132,9 @@ export default function Planit() {
     setLevel(1);
   }
 
-  useEffect(() => {
+  useEffect(() => { // on mount
     setPageLoaded(true);
+    updateStreak(false);
   })
 
   useEffect(() => {
