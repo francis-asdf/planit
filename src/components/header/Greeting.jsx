@@ -3,6 +3,7 @@ import './header.css'
 
 export default function Greeting() {
     const [timeOfDay, setTimeOfDay] = useState("");
+    const name = localStorage.getItem("userName");
 
     const updateTimeOfDay = () => {
         const hour = new Date().getHours();
@@ -34,7 +35,7 @@ export default function Greeting() {
 
     return (
         <div className="greeting">
-            <h2>Good {timeOfDay}.</h2>
+            <h2>Good {timeOfDay}, {name}.</h2>
         </div>
     )
 }

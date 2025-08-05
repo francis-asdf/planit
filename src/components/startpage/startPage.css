@@ -1,5 +1,18 @@
 @import '../../index.css';
 
+/* this and the next declaration block are needed to format the start page correctly */
+.start-page * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html.start-page-active,
+body.start-page-active {
+    height: 100%;
+    overflow: hidden;
+}
+
 .start-page {
     display: flex;
     flex-direction: column;
@@ -7,6 +20,7 @@
     height: 100vh;
     width: 100%;
     align-items: center;
+    margin-right: 5rem;
     padding: 2rem;
     background-color: var(--background-color);
     color: var(--text-color);
@@ -17,6 +31,7 @@
 .start-title {
     font-size: 3rem;
     font-weight: bold;
+    margin-top: -3rem;
     margin-bottom: 1rem;
     text-align: center;
 }
@@ -30,8 +45,57 @@
     transition: background 0.3s, color 0.3s;
 }
 
-.google-login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.get-started-button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.get-started-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.03);
+}
+
+.get-started-button:active {
+    transform: scale(0.98);
+}
+
+.name-input {
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 260px;
+    background-color: var(--task-background);
+    color: var(--text-color);
+    transition: background 0.3s, color 0.3s, border 0.2s;
+    margin-bottom: 1rem;
+    margin-right: 0.5rem;
+}
+
+.name-input:focus {
+    outline: none;
+    border: 1px solid #888;
+}
+
+.login-button {
+    padding: 0.6rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.login-button:hover {
+    background-color: #0056b3;
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import './index.css'
+import StartPage from './components/startpage/StartPage.jsx'
 import DarkMode from './components/header/DarkMode.jsx'
 import Header from './components/header/Header.jsx'
 import TaskTable from './components/content/TaskTable.jsx'
@@ -16,6 +17,10 @@ const initialTasks = [
 ];
 
 export default function Planit() {
+  const [user, setUser] = useState(() => {
+    const stored = localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null;
+  }); // stores user data
   const [tasks, setTasks] = useState(() => {
     const stored = localStorage.getItem("tasks");
     return stored ? JSON.parse(stored) : initialTasks;
@@ -24,7 +29,7 @@ export default function Planit() {
     return parseInt(localStorage.getItem("streak")) || 0;
   });
   const [lastCompletedDate, setLastCompletedDate] = useState(() => {
-    return localStorage.getItem("lastCompletedDate") || null; // localStorage stores stuff between refreshes
+    return localStorage.getItem("lastCompletedDate") || null;
   });
   const [level, setLevel] = useState(() => {
     return parseInt(localStorage.getItem("level")) || 1;
@@ -32,6 +37,11 @@ export default function Planit() {
   const [currentPoints, setCurrentPoints] = useState(() => {
     return parseInt(localStorage.getItem("currentPoints")) || 0;
   });
+
+  const handleLogin = (userData) => {
+    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData));
+  }
 
   const pointsNeeded = (level) => {
     return 40 + (level - 2) * 10;
@@ -129,41 +139,54 @@ export default function Planit() {
     localStorage.setItem("currentPoints", JSON.stringify(currentPoints));
   }, [currentPoints]);
 
+  // used for adding and removing CSS to the body and html depending on if the start page is open
+  useEffect(() => {
+    if (!user) {
+      document.body.classList.add("start-page-active");
+    } else {
+      document.body.classList.remove("start-page-active");
+    }
+  }, [user])
+
   useEffect(() => {
     document.body.classList.remove("preload");
   }, []); // disables transitions only on preload to avoid flicker effects
 
   return (
-    <div className="app-container">
-      <header>
-        <DarkMode />
-        <Header
-          streak={streak}
-          currentPoints={currentPoints}
-          level={level}
-          pointsForNextLevel={pointsNeeded(level + 1)}
-        />
-        <HamburgerMenu resetProgress={resetProgress} />
-      </header>
-      <main className="task-columns">
-        <div className="column">
-          <TaskTable
-            tasks={tasks} // task filtering done in TaskTable
-            onAddTask={addTask}
-            onToggleComplete={toggleTaskCompleted}
-            onUpdateTask={updateTask}
-            onDeleteTask={deleteTask}
+    !user ? (
+      <StartPage onLogin={handleLogin} />
+    ) : (
+      <div className="app-container">
+        <header>
+          <DarkMode />
+          <Header
+            streak={streak}
+            currentPoints={currentPoints}
+            level={level}
+            pointsForNextLevel={pointsNeeded(level + 1)}
           />
-        </div>
-        <div className="column">
-          <CompletedTaskTable
-            tasks={tasks}
-            onToggleComplete={toggleTaskCompleted}
-            onUpdateTask={updateTask}
-            onDeleteTask={deleteTask}
-          />
-        </div>
-      </main>
-    </div>
+          <HamburgerMenu resetProgress={resetProgress} />
+        </header>
+        <main className="task-columns">
+          <div className="column">
+            <TaskTable
+              tasks={tasks} // task filtering done in TaskTable
+              onAddTask={addTask}
+              onToggleComplete={toggleTaskCompleted}
+              onUpdateTask={updateTask}
+              onDeleteTask={deleteTask}
+            />
+          </div>
+          <div className="column">
+            <CompletedTaskTable
+              tasks={tasks}
+              onToggleComplete={toggleTaskCompleted}
+              onUpdateTask={updateTask}
+              onDeleteTask={deleteTask}
+            />
+          </div>
+        </main>
+      </div>
+    )
   )
 }
