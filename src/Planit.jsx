@@ -37,6 +37,7 @@ export default function Planit() {
   const [currentPoints, setCurrentPoints] = useState(() => {
     return parseInt(localStorage.getItem("currentPoints")) || 0;
   });
+  const [pageLoaded, setPageLoaded] = useState(false); // needed to fix margins on start page
 
   const handleLogin = (userData) => {
     setUser(userData);
@@ -124,6 +125,10 @@ export default function Planit() {
   }
 
   useEffect(() => {
+    setPageLoaded(true);
+  })
+
+  useEffect(() => {
     localStorage.setItem("streak", JSON.stringify(streak));
   }, [streak]); // saves streak in localStorage
 
@@ -146,7 +151,7 @@ export default function Planit() {
     } else {
       document.body.classList.remove("start-page-active");
     }
-  }, [user])
+  }, [user, pageLoaded]);
 
   useEffect(() => {
     document.body.classList.remove("preload");
