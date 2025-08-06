@@ -91,7 +91,7 @@ export default function Planit() {
   }
 
   const toggleTaskCompleted = (updatedTask) => {
-    if (updatedTask.completed) {
+    if (!updatedTask.completed) { // not toggled yet
       updateStreak(true);
     }
 
