@@ -8,10 +8,14 @@ export default function EditTaskModal({ task, onClose, onUpdate, onDelete }) {
     const [deadline, setDeadline] = useState(task.deadline);
     const [description, setDescription] = useState(task.description);
     const [points, setPoints] = useState(task.points);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const handleSave = (event) => {
         event.preventDefault();
-        if (!taskName.trim() || !deadline.trim()) return;
+        if (!taskName.trim() || !deadline.trim()) {
+            setErrorMessage("Task name and deadline are required.");
+            return;
+        }
         const updatedTask = { ...task, name: taskName, deadline: deadline, description: description, points: points }
         onUpdate(updatedTask);
         onClose();
@@ -27,18 +31,25 @@ export default function EditTaskModal({ task, onClose, onUpdate, onDelete }) {
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <form onSubmit={handleSave}>
                     <h3>Edit Task</h3>
+                    {errorMessage && <p className="error-message">{errorMessage}</p>}
                     <input
                         type="text"
                         name="name"
                         autoComplete="off"
                         value={taskName}
-                        onChange={(e) => setTaskName(e.target.value)}
+                        onChange={(e) => {
+                            setTaskName(e.target.value);
+                            setErrorMessage("");
+                        }}
                     />
                     <input
                         type="datetime-local"
                         name="deadline"
                         value={deadline}
-                        onChange={(e) => setDeadline(e.target.value)}
+                        onChange={(e) => {
+                            setDeadline(e.target.value);
+                            setErrorMessage("");
+                        }}
                     />
                     <textarea
                         placeholder="Description"

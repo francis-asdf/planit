@@ -8,17 +8,22 @@ export default function NewTask({ onAddTask }) {
     const [deadline, setDeadline] = useState("");
     const [description, setDescription] = useState("");
     const [points, setPoints] = useState(1);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const resetFields = () => {
         setTaskName("");
         setDeadline("");
         setDescription("");
         setPoints(1);
+        setErrorMessage("");
     }
 
     const handleSubmit = (event) => {
         event.preventDefault(); // prevents page reload
-        if (!taskName.trim() || !deadline.trim()) return; // trim() removes whitespace => if empty, return
+        if (!taskName.trim() || !deadline.trim()) {
+            setErrorMessage("Task name and deadline are required.");
+            return;
+        } // trim() removes whitespace => if empty, show error message
 
         const newTask = {
             id: crypto.randomUUID(), // randomly assigns an ID
@@ -45,19 +50,26 @@ export default function NewTask({ onAddTask }) {
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}> {/* stops clicks inside the form from closing the modal */}
                         <form onSubmit={handleSubmit}>
                             <h3>New Task</h3>
+                            {errorMessage && <p className="error-message">{errorMessage}</p>}
                             <input
                                 type="text"
                                 name="name"
                                 placeholder="Task name"
                                 autoComplete="off"
                                 value={taskName}
-                                onChange={(e) => setTaskName(e.target.value)}
+                                onChange={(e) => {
+                                    setTaskName(e.target.value);
+                                    setErrorMessage("");
+                                }}
                             />
                             <input
                                 type="datetime-local"
                                 name="deadline"
                                 value={deadline}
-                                onChange={(e) => setDeadline(e.target.value)}
+                                onChange={(e) => {
+                                    setDeadline(e.target.value);
+                                    setErrorMessage("");
+                                }}
                             />
                             <textarea
                                 placeholder="Description"
