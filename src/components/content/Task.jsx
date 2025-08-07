@@ -9,15 +9,20 @@ export default function Task({ task, onToggle, onUpdateTask, onDeleteTask }) {
 
     const isOverdue = new Date(task.deadline) < new Date();
 
+    const handleTaskClick = (e) => {
+        if (e.target.type !== 'checkbox') {
+            setShowModal(true);
+        }
+    }
+
     return (
         <div
             className="task-container"
-            onMouseEnter={() => setShowModal(true)}
-            onMouseLeave={() => setShowModal(false)}
+            onClick={handleTaskClick}
         >
             <div className={`task-content ${isOverdue ? "overdue" : ""}`}>
                 <div className="task-title">
-                    <input type="checkbox" id={task.name} name={task.name} checked={task.completed} onChange={() => onToggle(task)} />
+                    <input type="checkbox" id={task.name} name={task.name} checked={task.completed} onChange={() => onToggle(task)} onClick={(e) => e.stopPropagation()} />
                     <label htmlFor={task.name}>{task.name}</label>
                 </div>
                 <div className="task-meta">
@@ -27,15 +32,6 @@ export default function Task({ task, onToggle, onUpdateTask, onDeleteTask }) {
             </div>
 
             {showModal && (
-                <button
-                    className="edit-button"
-                    onClick={() => setShowModal('edit')}
-                >
-                    ...
-                </button>
-            )}
-
-            {showModal === 'edit' && (
                 <EditTaskModal
                     task={task}
                     onClose={() => setShowModal(false)}

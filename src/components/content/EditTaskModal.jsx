@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import './task.css'
 import './modal.css'
 
@@ -21,7 +22,7 @@ export default function EditTaskModal({ task, onClose, onUpdate, onDelete }) {
         onClose();
     }
 
-    return (
+    const modalContent = ( // with createPortal, all of this will be rendered in document.body rather than inside the task container
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content" onClick={(e) => e.stopPropagation()}>
                 <form onSubmit={handleSave}>
@@ -65,4 +66,6 @@ export default function EditTaskModal({ task, onClose, onUpdate, onDelete }) {
             </div>
         </div>
     );
+
+    return createPortal(modalContent, document.body);
 }

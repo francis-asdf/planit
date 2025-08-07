@@ -4,6 +4,10 @@
     position: relative;
 }
 
+.task-container:hover {
+    transform: scale(1.01);
+}
+
 .task-header {
     display: flex;
     justify-content: space-between;

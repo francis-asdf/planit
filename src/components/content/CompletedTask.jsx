@@ -7,11 +7,16 @@ import { useState } from 'react'
 export default function CompletedTask({ task, onToggle, onUpdateTask, onDeleteTask }) {
     const [showModal, setShowModal] = useState(false);
 
+    const handleTaskClick = (e) => {
+        if (e.target.type !== 'checkbox') {
+            setShowModal(true);
+        }
+    }
+
     return (
         <div
             className="task-container"
-            onMouseEnter={() => setShowModal(true)}
-            onMouseLeave={() => setShowModal(false)}
+            onClick={handleTaskClick}
         >
             <div className="task-content completed">
                 <div className="task-title">
@@ -25,15 +30,6 @@ export default function CompletedTask({ task, onToggle, onUpdateTask, onDeleteTa
             </div>
 
             {showModal && (
-                <button
-                    className="edit-button"
-                    onClick={() => setShowModal('edit')}
-                >
-                    ...
-                </button>
-            )}
-
-            {showModal === 'edit' && (
                 <EditTaskModal
                     task={task}
                     onClose={() => setShowModal(false)}
