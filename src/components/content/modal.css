@@ -21,6 +21,7 @@
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
     z-index: 11;
     animation: slideUp 0.3s ease-in-out;
+    min-width: 275px;
 }
 
 .modal-content form {
@@ -35,13 +36,23 @@
     margin-bottom: 0.5rem;
 }
 
+.modal-content label {
+    font-weight: 500;
+}
+
 .modal-content input,
-textarea {
+textarea,
+select {
     padding: 0.5rem;
     border-radius: 6px;
     border: 1px solid #ccc;
     resize: vertical;
     /* only applies to text area */
+}
+
+.recurring-info {
+    display: flex;
+    justify-content: space-between;
 }
 
 @keyframes fadeIn {

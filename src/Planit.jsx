@@ -7,13 +7,73 @@ import TaskTable from './components/content/TaskTable.jsx'
 import CompletedTaskTable from './components/content/CompletedTaskTable.jsx'
 import HamburgerMenu from './components/header/HamburgerMenu.jsx'
 
-// all tasks have {id, name, deadline, description, points, completed, completionDate, completedOnce}
+// all tasks have {id, name, deadline, description, isRecurring, recurringInterval, recurringUnit, points, completed, completionDate, completedOnce}
 const initialTasks = [
-  { id: 1, name: "Vacuum the house", deadline: "2025-07-06T19:00", description: "Vacuum stairs and upstairs", points: 5, completed: true, completionDate: "2025-07-06T17:27", completedOnce: true },
-  { id: 2, name: "Do the dishes", deadline: "2025-07-07T20:00", description: "", points: 5, completed: true, completionDate: "2025-07-07T19:58", completedOnce: true },
-  { id: 3, name: "Take out the trash", deadline: "2025-07-09T07:00", description: "Recycling", points: 3, completed: false, completionDate: null, completedOnce: false },
-  { id: 4, name: "Do physics homework", deadline: "2025-07-10T08:00", description: "Finish Faraday's law questions", points: 10, completed: false, completionDate: null, completedOnce: false },
-  { id: 5, name: "Organize university applications", deadline: "2025-07-27T20:00", description: "Record soft and hard deadlines for each university and detailed scheduling plans", points: 50, completed: false, completionDate: null, completedOnce: false }
+  {
+    id: 1,
+    name: "Vacuum the house",
+    deadline: "2025-07-06T19:00",
+    description: "Vacuum stairs and upstairs",
+    isRecurring: false,
+    recurringInterval: 0,
+    recurringUnit: "day",
+    points: 5,
+    completed: true,
+    completionDate: "2025-07-06T17:27",
+    completedOnce: true
+  },
+  {
+    id: 2,
+    name: "Do the dishes",
+    deadline: "2025-07-07T20:00",
+    description: "",
+    isRecurring: true,
+    recurringInterval: 1,
+    recurringUnit: "day",
+    points: 5,
+    completed: true,
+    completionDate: "2025-07-07T19:58",
+    completedOnce: true
+  },
+  {
+    id: 3,
+    name: "Take out the trash",
+    deadline: "2025-07-09T07:00",
+    description: "Recycling",
+    isRecurring: true,
+    recurringInterval: 1,
+    recurringUnit: "week",
+    points: 3,
+    completed: false,
+    completionDate: null,
+    completedOnce: false
+  },
+  {
+    id: 4,
+    name: "Do physics homework",
+    deadline: "2025-07-10T08:00",
+    description: "Finish Faraday's law questions",
+    isRecurring: false,
+    recurringInterval: 0,
+    recurringUnit: "day",
+    points: 10,
+    completed: false,
+    completionDate: null,
+    completedOnce: false
+  },
+  {
+    id: 5,
+    name: "Organize university applications",
+    deadline: "2025-07-27T20:00",
+    description: "Record soft and hard deadlines for each university and detailed scheduling plans",
+    isRecurring: false,
+    recurringInterval: 0,
+    recurringUnit: "day",
+    points: 50,
+    completed: false,
+    completionDate: null,
+    completedOnce: false
+  }
 ];
 
 export default function Planit() {
@@ -61,8 +121,8 @@ export default function Planit() {
   }
 
   const addTask = (task) => {
-    // task.deadline = formatDate(new Date(task.deadline));
-    setTasks([...tasks, task]); // adds the newest task to the list of tasks
+    // setTasks([...tasks, task]); // adds the newest task to the list of tasks
+    setTasks(prev => [...prev, task]);
   }
 
   const getTodayString = () => {
@@ -99,22 +159,35 @@ export default function Planit() {
       updatePoints(updatedTask.points);
     }
 
-    const updatedTasks = tasks.map((task) => {
-      if (task.id === updatedTask.id) {
-        const isCompleted = !task.completed; // allows for toggling from complete to incomplete
-        const currentDate = new Date();
+    setTasks(prevTasks => {
+      let recurringTask = null; // if applicable, will be added after looping through tasks
 
-        return {
-          ...task,
-          completed: isCompleted,
-          completionDate: isCompleted ? currentDate : null,
-          completedOnce: true
-        };
-      } else {
+      const updatedTasks = prevTasks.map((task) => {
+        if (task.id === updatedTask.id) {
+          const isCompleted = !task.completed; // allows for toggling from complete to incomplete
+          const currentDate = new Date();
+
+          if (isCompleted && task.isRecurring) {
+            const newDeadline = new Date(task.deadline).getTime() + task.recurring.interval * 1000 * (task.recurring.unit === "day" ? 86400 : 604800);
+            recurringTask = { ...task, id: crypto.randomUUID(), deadline: newDeadline, completed: false, completionDate: null };
+          }
+
+          return {
+            ...task,
+            completed: isCompleted,
+            completionDate: isCompleted ? currentDate : null,
+            completedOnce: true
+          };
+        }
         return task;
+      });
+
+      if (recurringTask) {
+        return [...updatedTasks, recurringTask];
+      } else {
+        return updatedTasks;
       }
     });
-    setTasks(updatedTasks);
   }
 
   const updateTask = (updatedTask) => {

@@ -7,6 +7,9 @@ export default function EditTaskModal({ task, onClose, onUpdate, onDelete }) {
     const [taskName, setTaskName] = useState(task.name);
     const [deadline, setDeadline] = useState(task.deadline);
     const [description, setDescription] = useState(task.description);
+    const [isRecurring, setIsRecurring] = useState(task.isRecurring);
+    const [recurringInterval, setRecurringInterval] = useState(task.recurring.interval);
+    const [recurringUnit, setRecurringUnit] = useState(task.recurring.unit);
     const [points, setPoints] = useState(task.points);
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -16,7 +19,7 @@ export default function EditTaskModal({ task, onClose, onUpdate, onDelete }) {
             setErrorMessage("Task name and deadline are required.");
             return;
         }
-        const updatedTask = { ...task, name: taskName, deadline: deadline, description: description, points: points }
+        const updatedTask = { ...task, name: taskName, deadline, description, isRecurring, recurring: isRecurring ? { interval: recurringInterval, unit: recurringUnit } : { interval: 0, unit: "day" }, points }
         onUpdate(updatedTask);
         onClose();
     }
@@ -57,6 +60,37 @@ export default function EditTaskModal({ task, onClose, onUpdate, onDelete }) {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
+                    <label htmlFor="recurring-check">
+                        <input
+                            type="checkbox"
+                            id="recurring-check"
+                            checked={isRecurring}
+                            onChange={(e) => setIsRecurring(e.target.checked)}
+                        />
+                        Make this task recurring
+                    </label>
+                    {isRecurring && (
+                        <div>
+                            <label htmlFor="recurring-interval">Repeat every:</label>
+                            <div className="recurring-info">
+                                <input
+                                    type="number"
+                                    id="recurring-interval"
+                                    name="recurring-interval"
+                                    min="1"
+                                    value={recurringInterval}
+                                    onChange={(e) => setRecurringInterval(parseInt(e.target.value) || 1)}
+                                />
+                                <select
+                                    value={recurringUnit}
+                                    onChange={(e) => setRecurringUnit(e.target.value)}
+                                >
+                                    <option value="day">day(s)</option>
+                                    <option value="week">week(s)</option>
+                                </select>
+                            </div>
+                        </div>
+                    )}
                     <label htmlFor="points-slider">Points: {points}</label>
                     <input
                         type="range"

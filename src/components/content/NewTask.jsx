@@ -7,6 +7,9 @@ export default function NewTask({ onAddTask }) {
     const [taskName, setTaskName] = useState("");
     const [deadline, setDeadline] = useState("");
     const [description, setDescription] = useState("");
+    const [isRecurring, setIsRecurring] = useState(false);
+    const [recurringInterval, setRecurringInterval] = useState(1);
+    const [recurringUnit, setRecurringUnit] = useState("day");
     const [points, setPoints] = useState(1);
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -14,6 +17,9 @@ export default function NewTask({ onAddTask }) {
         setTaskName("");
         setDeadline("");
         setDescription("");
+        setIsRecurring(false);
+        setRecurringInterval(1);
+        setRecurringUnit("day");
         setPoints(1);
         setErrorMessage("");
     }
@@ -28,9 +34,11 @@ export default function NewTask({ onAddTask }) {
         const newTask = {
             id: crypto.randomUUID(), // randomly assigns an ID
             name: taskName,
-            deadline: deadline,
-            description: description,
-            points: points,
+            deadline,
+            description,
+            isRecurring,
+            recurring: isRecurring ? { interval: recurringInterval, unit: recurringUnit } : { interval: 0, unit: "day" },
+            points,
             completed: false,
             completionDate: null,
             completedOnce: false
@@ -46,7 +54,10 @@ export default function NewTask({ onAddTask }) {
             {!showForm ? (
                 <button className="new-task-button" onClick={() => setShowForm(true)}>New Task</button>
             ) : (
-                <div className="modal-overlay" onClick={() => setShowForm(false)}> {/* backdrop behind dialog box */}
+                <div className="modal-overlay" onClick={() => {
+                    resetFields();
+                    setShowForm(false);
+                }}> {/* backdrop behind dialog box */}
                     <div className="modal-content" onClick={(e) => e.stopPropagation()}> {/* stops clicks inside the form from closing the modal */}
                         <form onSubmit={handleSubmit}>
                             <h3>New Task</h3>
@@ -77,6 +88,37 @@ export default function NewTask({ onAddTask }) {
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
                             />
+                            <label htmlFor="recurring-check">
+                                <input
+                                    type="checkbox"
+                                    id="recurring-check"
+                                    checked={isRecurring}
+                                    onChange={(e) => setIsRecurring(e.target.checked)}
+                                />
+                                Make this task recurring
+                            </label>
+                            {isRecurring && (
+                                <div>
+                                    <label htmlFor="recurring-interval">Repeat every:</label>
+                                    <div className="recurring-info">
+                                        <input
+                                            type="number"
+                                            id="recurring-interval"
+                                            name="recurring-interval"
+                                            min="1"
+                                            value={recurringInterval}
+                                            onChange={(e) => setRecurringInterval(parseInt(e.target.value) || 1)}
+                                        />
+                                        <select
+                                            value={recurringUnit}
+                                            onChange={(e) => setRecurringUnit(e.target.value)}
+                                        >
+                                            <option value="day">day(s)</option>
+                                            <option value="week">week(s)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            )}
                             <label htmlFor="points-slider">Points: {points}</label>
                             <input
                                 type="range"
