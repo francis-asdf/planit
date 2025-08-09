@@ -19,7 +19,7 @@ export default function EditTaskModal({ task, onClose, onUpdate, onDelete }) {
             setErrorMessage("Task name and deadline are required.");
             return;
         }
-        const updatedTask = { ...task, name: taskName, deadline, description, isRecurring, recurring: isRecurring ? { interval: recurringInterval, unit: recurringUnit } : { interval: 0, unit: "day" }, points }
+        const updatedTask = { ...task, name: taskName, deadline, description, isRecurring, recurring: isRecurring ? { interval: recurringInterval, unit: recurringUnit } : { interval: 1, unit: "day" }, points }
         onUpdate(updatedTask);
         onClose();
     }

@@ -15,8 +15,7 @@ const initialTasks = [
     deadline: "2025-07-06T19:00",
     description: "Vacuum stairs and upstairs",
     isRecurring: false,
-    recurringInterval: 0,
-    recurringUnit: "day",
+    recurring: { interval: 1, unit: "day" },
     points: 5,
     completed: true,
     completionDate: "2025-07-06T17:27",
@@ -28,8 +27,7 @@ const initialTasks = [
     deadline: "2025-07-07T20:00",
     description: "",
     isRecurring: true,
-    recurringInterval: 1,
-    recurringUnit: "day",
+    recurring: { interval: 1, unit: "day" },
     points: 5,
     completed: true,
     completionDate: "2025-07-07T19:58",
@@ -41,8 +39,7 @@ const initialTasks = [
     deadline: "2025-07-09T07:00",
     description: "Recycling",
     isRecurring: true,
-    recurringInterval: 1,
-    recurringUnit: "week",
+    recurring: { interval: 1, unit: "week" },
     points: 3,
     completed: false,
     completionDate: null,
@@ -54,8 +51,7 @@ const initialTasks = [
     deadline: "2025-07-10T08:00",
     description: "Finish Faraday's law questions",
     isRecurring: false,
-    recurringInterval: 0,
-    recurringUnit: "day",
+    recurring: { interval: 1, unit: "day" },
     points: 10,
     completed: false,
     completionDate: null,
@@ -67,8 +63,7 @@ const initialTasks = [
     deadline: "2025-07-27T20:00",
     description: "Record soft and hard deadlines for each university and detailed scheduling plans",
     isRecurring: false,
-    recurringInterval: 0,
-    recurringUnit: "day",
+    recurring: { interval: 1, unit: "day" },
     points: 50,
     completed: false,
     completionDate: null,
@@ -78,12 +73,10 @@ const initialTasks = [
 
 export default function Planit() {
   const [user, setUser] = useState(() => {
-    const stored = localStorage.getItem("user");
-    return stored ? JSON.parse(stored) : null;
+    return JSON.parse(localStorage.getItem("user")) || null;
   }); // stores user data
   const [tasks, setTasks] = useState(() => {
-    const stored = localStorage.getItem("tasks");
-    return stored ? JSON.parse(stored) : initialTasks;
+    return JSON.parse(localStorage.getItem("tasks")) || initialTasks;
   });
   const [streak, setStreak] = useState(() => {
     return parseInt(localStorage.getItem("streak")) || 0;
@@ -208,7 +201,15 @@ export default function Planit() {
   useEffect(() => { // on mount
     setPageLoaded(true);
     updateStreak(false);
-  })
+
+    const loadedTasks = JSON.parse(localStorage.getItem("tasks")) || initialTasks;
+    const defaultedTasks = loadedTasks.map(task => ({
+      ...task,
+      isRecurring: task.isRecurring ?? false, // evaluates right side when left is null or undefined
+      recurring: task.recurring || { interval: 1, unit: "day" }
+    }));
+    setTasks(defaultedTasks);
+  }, [])
 
   useEffect(() => {
     localStorage.setItem("streak", JSON.stringify(streak));

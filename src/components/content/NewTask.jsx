@@ -37,7 +37,7 @@ export default function NewTask({ onAddTask }) {
             deadline,
             description,
             isRecurring,
-            recurring: isRecurring ? { interval: recurringInterval, unit: recurringUnit } : { interval: 0, unit: "day" },
+            recurring: isRecurring ? { interval: recurringInterval, unit: recurringUnit } : { interval: 1, unit: "day" },
             points,
             completed: false,
             completionDate: null,
