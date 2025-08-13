@@ -161,7 +161,8 @@ export default function Planit() {
           const currentDate = new Date();
 
           if (isCompleted && task.isRecurring) {
-            const newDeadline = new Date(task.deadline).getTime() + task.recurring.interval * 1000 * (task.recurring.unit === "day" ? 86400 : 604800);
+            const newDeadlineDate = new Date(task.deadline).getTime() + task.recurring.interval * 1000 * (task.recurring.unit === "day" ? 86400 : 604800); // formatted as a Date object, not datetime-local
+            const newDeadline = new Date(newDeadlineDate).toISOString().slice(0, 16);
             recurringTask = { ...task, id: crypto.randomUUID(), deadline: newDeadline, completed: false, completionDate: null };
           }
 
