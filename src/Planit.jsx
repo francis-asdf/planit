@@ -125,8 +125,8 @@ export default function Planit() {
 
   const updateStreak = (completed) => { // completed parameter for whether to increment streak or not (this is called on mount)
     const today = getTodayString();
-    if (lastCompletedDate === today) {
-      // daily task already completed, do nothing
+    if (lastCompletedDate === today || (new Date(today) - new Date(lastCompletedDate) === 86400000 && !completed)) {
+      // daily task already completed or last task completed was yesterday, do nothing
     } else if (
       (lastCompletedDate === null || new Date(today) - new Date(lastCompletedDate) === 86400000) // one day after last streak set
       && completed
